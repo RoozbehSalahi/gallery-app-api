@@ -30,6 +30,8 @@ class ModelTests(TestCase):
         """Test the email for a new user have neccessety parts"""
         with self.assertRaises(ValueError):
             get_user_model().objects.create_user('@asd.com', 'test123')
+        with self.assertRaises(ValueError):
+            get_user_model().objects.create_user('rooz@asd', 'test123')
 
     def test_create_new_superuser(self):
         """Test creating a new superuser"""
@@ -39,3 +41,8 @@ class ModelTests(TestCase):
         )
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_no_pass(self):
+        """Test setting the password empty  should not work"""
+        with self.assertRaises(ValueError):
+            get_user_model().objects.create_user('rooz@gmail.com', '')

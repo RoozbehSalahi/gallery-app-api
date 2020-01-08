@@ -13,6 +13,8 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have an email address')
         if not EMAIL_REGEX.match(email):
             raise ValueError('User must have a correct format email')
+        if password == '' or password == None:
+            raise ValueError('User must have a correct format email')
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
